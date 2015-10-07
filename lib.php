@@ -16,3 +16,33 @@ function local_report_config_extends_settings_navigation(navigation_node $naviga
         }
     }
 }
+
+class Config {
+
+    public $config_report; //Array com os dados de configuração
+    public $categoryid;
+
+    function __construct($dados, $fromform, $categoryid) {
+
+        $config_report = array();
+
+        foreach ($dados as $course_id => $data) {
+            foreach ($data as $name_activity => $activity) {
+                foreach ($fromform as $id_activity => $data_form) {
+                    if ($activity == $id_activity){
+                        $config_report[$course_id][] = $name_activity;
+                    }
+                }
+            }
+        }
+
+        $this->config_report = $config_report;
+        $this->categoryid = $categoryid;
+    }
+
+    function get_config_report() {
+        return $this->config_report;
+    }
+
+
+}

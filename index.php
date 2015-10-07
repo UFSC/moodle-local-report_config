@@ -22,13 +22,16 @@ $renderer = $PAGE->get_renderer('local_report_config');
 
 echo $renderer->page_header();
 
-$mform = new config_form();
+$mform = new Config_form();
 
 if ($fromform = $mform->get_data()) {
-    //In this case you process validated data. $mform->get_data() returns data posted in form.
+    $dados = $mform->get_dados();
+
+    $config = new Config($dados, $fromform, $categoryid);
+
+    echo 'Configuração salva!';
 } else {
     $mform->display();
 }
-
 
 echo $renderer->page_footer();

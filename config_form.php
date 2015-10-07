@@ -20,7 +20,9 @@ $PAGE->set_heading(get_string('pluginname', 'local_report_config'));
 
 require_login();
 
-class config_form extends moodleform {
+class Config_form extends moodleform {
+
+    private $dados = array();
 
     public function definition() {
 
@@ -31,6 +33,8 @@ class config_form extends moodleform {
 
         foreach ($atividades_curso as $id_course => $activities){
 
+            $i = 0;
+
             foreach ($activities as $activity){
 
                 if(!isset($activities_module[$id_course])){
@@ -38,8 +42,15 @@ class config_form extends moodleform {
                     $mform->setType('course_name', PARAM_TEXT);
                 }
 
-                $activities_module[$id_course][] = $mform->addElement('advcheckbox', 'activity', $activity->name, '', array('group' => 1), array(0, 1));
-                $mform->setType('activity', PARAM_TEXT);
+                $name = $id_course . '-' . $i;
+
+                $activities_module[$id_course][] = $mform->addElement('checkbox', $name, $activity->name);
+                $mform->setType($name, PARAM_ALPHANUM);
+                $mform->setDefault($name, true);
+
+                $this->dados[$id_course][$activity->name] = $name;
+
+                $i++;
             }
 
             $activities_module = '';
@@ -50,9 +61,9 @@ class config_form extends moodleform {
         $this->add_action_buttons();
     }
 
-    //Custom validation should be added here
-    function validation($data, $files) {
-        return array();
+    function get_dados() {
+        return $this->dados;
     }
+
 }
 
