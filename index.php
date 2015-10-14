@@ -27,14 +27,13 @@ $line = array();
 $line[] = 'Relatório não configurado';
 
 $buttons = array();
-$buttons[] = html_writer::link(new moodle_url('/local/relationship/edit.php', array('categoryid' => $categoryid, 'delete' => 1)),
+
+$buttons[] = html_writer::link(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid, 'delete' => 1)),
 html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/delete'), 'alt' => get_string('delete'), 'title' => get_string('delete'), 'class' => 'iconsmall')));
-$buttons[] = html_writer::link(new moodle_url('/local/relationship/edit.php', array('categoryid' => $categoryid)),
+
+$buttons[] = html_writer::link(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)),
 html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/edit'), 'alt' => get_string('edit'), 'title' => get_string('edit'), 'class' => 'iconsmall')));
-$buttons[] = html_writer::link(new moodle_url('/local/relationship/cohorts.php', array('categoryid' => $categoryid)),
-html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/cohort'), 'alt' => get_string('cohorts', 'local_relationship'), 'title' => get_string('cohorts', 'local_relationship'), 'class' => 'iconsmall')));
-$buttons[] = html_writer::link(new moodle_url('/local/relationship/groups.php', array('categoryid' => $categoryid)),
-html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/groups'), 'alt' => get_string('groups'), 'title' => get_string('groups'), 'class' => 'iconsmall')));
+
 $line[] = implode(' ', $buttons);
 
 $data[] = $line;
