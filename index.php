@@ -22,16 +22,34 @@ $renderer = $PAGE->get_renderer('local_report_config');
 
 echo $renderer->page_header();
 
-$mform = new Config_form();
+$data = array();
+$line = array();
+$line[] = 'Relatório não configurado';
 
-if ($fromform = $mform->get_data()) {
-    $dados = $mform->get_dados();
+$buttons = array();
+$buttons[] = html_writer::link(new moodle_url('/local/relationship/edit.php', array('categoryid' => $categoryid, 'delete' => 1)),
+html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/delete'), 'alt' => get_string('delete'), 'title' => get_string('delete'), 'class' => 'iconsmall')));
+$buttons[] = html_writer::link(new moodle_url('/local/relationship/edit.php', array('categoryid' => $categoryid)),
+html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/edit'), 'alt' => get_string('edit'), 'title' => get_string('edit'), 'class' => 'iconsmall')));
+$buttons[] = html_writer::link(new moodle_url('/local/relationship/cohorts.php', array('categoryid' => $categoryid)),
+html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/cohort'), 'alt' => get_string('cohorts', 'local_relationship'), 'title' => get_string('cohorts', 'local_relationship'), 'class' => 'iconsmall')));
+$buttons[] = html_writer::link(new moodle_url('/local/relationship/groups.php', array('categoryid' => $categoryid)),
+html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/groups'), 'alt' => get_string('groups'), 'title' => get_string('groups'), 'class' => 'iconsmall')));
+$line[] = implode(' ', $buttons);
 
-    $config = new Config($dados, $fromform, $categoryid);
+$data[] = $line;
 
-    echo 'Configuração salva!';
-} else {
-    $mform->display();
-}
+$table = new html_table();
+$table->head = array(
+    get_string('status', 'local_report_config'),
+    get_string('edit', 'local_report_config')
+);
+$table->colclasses = array('leftalign name', 'leftalign description', 'leftalign size', 'centeralign', 'centeralign source', 'centeralign action');
+$table->id = 'relationships';
+$table->attributes['class'] = 'admintable generaltable';
+$table->data = $data;
+echo html_writer::table($table);
+
+echo $OUTPUT->single_button(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)), get_string('add', 'local_report_config'));
 
 echo $renderer->page_footer();
