@@ -20,16 +20,22 @@ require_login();
 
 $renderer = $PAGE->get_renderer('local_report_config');
 
+$returnurl = new moodle_url('/local/report_config/index.php', array('categoryid' => $categoryid));
+
 echo $renderer->page_header();
 
 $mform = new Config_form();
 
-if ($fromform = $mform->get_data()) {
+if ($mform->is_cancelled()) {
+//    redirect($returnurl);
+} else if ($fromform = $mform->get_data()) {
     $dados = $mform->get_dados();
 
     $config = new Config($dados, $fromform, $categoryid);
-} else {
-    $mform->display();
+    $config->add_or_update_config_report();
+
+//    redirect($returnurl);
 }
+$mform->display();
 
 echo $renderer->page_footer();

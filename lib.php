@@ -44,5 +44,27 @@ class Config {
         return $this->config_report;
     }
 
+    function add_or_update_config_report() {
+        global $DB;
 
+        $DB->delete_records('local_report_config');
+        $DB->delete_records('activities_course_config');
+
+        foreach ($this->config_report as $courseid => $config) {
+
+            $record = new stdClass();
+            $record->courseid = $courseid;
+            $record->categoryid = $this->categoryid;
+
+            $DB->insert_record('local_report_config', $record);
+
+            foreach ($config as $activity) {
+                $record2 = new stdClass();
+                $record2->activityid = $activity;
+                $record2->courseid = $courseid;
+
+                $DB->insert_record('activities_course_config', $record2);
+            }
+        }
+    }
 }

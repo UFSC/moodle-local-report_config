@@ -48,7 +48,7 @@ class Config_form extends moodleform {
                 $mform->setType($name, PARAM_ALPHANUM);
                 $mform->setDefault($name, true);
 
-                $this->dados[$id_course][$activity->name] = $name;
+                $this->dados[$id_course][$activity->id] = $name;
 
                 $i++;
             }
