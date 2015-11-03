@@ -24,31 +24,43 @@ echo $renderer->page_header();
 
 $data = array();
 $line = array();
-$line[] = 'Relatório não configurado';
-
 $buttons = array();
 
-$buttons[] = html_writer::link(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid, 'delete' => 1)),
-html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/delete'), 'alt' => get_string('delete'), 'title' => get_string('delete'), 'class' => 'iconsmall')));
+$table = new html_table();
 
-$buttons[] = html_writer::link(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)),
-html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/edit'), 'alt' => get_string('edit'), 'title' => get_string('edit'), 'class' => 'iconsmall')));
+global $DB;
+$already_configured = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
 
-$line[] = implode(' ', $buttons);
+if ($already_configured){
+    $line[] = 'Relatórios Configurados';
+
+    $buttons[] = html_writer::link(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)),
+    html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/edit'), 'alt' => get_string('edit'), 'title' => get_string('edit'), 'class' => 'iconsmall')));
+
+    $line[] = implode(' ', $buttons);
+    $table->head = array(
+        get_string('status', 'local_report_config'),
+        get_string('edit', 'local_report_config')
+    );
+
+} else {
+    $line[] = 'Relatórios Não Configurados';
+
+    $table->head = array(
+        get_string('status', 'local_report_config'),
+    );
+}
 
 $data[] = $line;
 
-$table = new html_table();
-$table->head = array(
-    get_string('status', 'local_report_config'),
-    get_string('edit', 'local_report_config')
-);
 $table->colclasses = array('leftalign name', 'leftalign description', 'leftalign size', 'centeralign', 'centeralign source', 'centeralign action');
 $table->id = 'relationships';
 $table->attributes['class'] = 'admintable generaltable';
 $table->data = $data;
 echo html_writer::table($table);
 
-echo $OUTPUT->single_button(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)), get_string('add', 'local_report_config'));
+if ($line[0] == 'Relatório Não Configurado'){
+    echo $OUTPUT->single_button(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)), get_string('add', 'local_report_config'));
+}
 
 echo $renderer->page_footer();

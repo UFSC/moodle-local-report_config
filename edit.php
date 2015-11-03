@@ -33,9 +33,8 @@ if ($mform->is_cancelled()) {
 
     $config = new Config($dados, $fromform, $categoryid);
     $config->add_or_update_config_report();
-
-//    redirect($returnurl);
 }
+
 $mform->display();
 
 echo $renderer->page_footer();

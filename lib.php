@@ -12,7 +12,7 @@ function local_report_config_extends_settings_navigation(navigation_node $naviga
             $category_node->add(
                 get_string('reportconfig', 'local_report_config'),
                 new moodle_url('/local/report_config/index.php', array('categoryid' => $PAGE->context->instanceid)),
-                navigation_node::TYPE_SETTING); //, null, null, new pix_icon('icon', '', 'local_tutores'));
+                navigation_node::TYPE_SETTING);
         }
     }
 }

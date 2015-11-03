@@ -13,10 +13,15 @@ function get_activities_courses() {
     $ids_courses = array();
 
     foreach ($courses as $id => $course) {
-        foreach ($course as  $c) {
-            foreach ($c as $id_course => $course_name) {
-                // Get the ID for each course
-                $ids_courses[] = $id_course;
+        // Verificação necessária para cursos com Turma A e B
+        if(!is_array($course)){
+            $ids_courses[] = $id;
+        } else {
+            foreach ($course as $c) {
+                foreach ($c as $id_course => $course_name) {
+                    // Get the ID for each course
+                    $ids_courses[] = $id_course;
+                }
             }
         }
     }
@@ -50,6 +55,4 @@ function get_activities_courses() {
     }
 
     return $group_array->get_assoc();
-
-//   return get_atividades_cursos($ids_courses, false, false, false, true);
 }

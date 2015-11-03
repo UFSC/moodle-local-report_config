@@ -26,10 +26,14 @@ class Config_form extends moodleform {
 
     public function definition() {
 
+        global $DB;
+
         $categoryid = required_param('categoryid', PARAM_INT);
         $atividades_curso = get_activities_courses();
 
         $mform = $this->_form;
+
+        $settings = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
 
         foreach ($atividades_curso as $id_course => $activities){
 
@@ -46,7 +50,17 @@ class Config_form extends moodleform {
 
                 $activities_module[$id_course][] = $mform->addElement('checkbox', $name, $activity->name);
                 $mform->setType($name, PARAM_ALPHANUM);
-                $mform->setDefault($name, true);
+
+                // Se ainda não há configuração para o relatório, o default são todas atividades selecionadas
+                if(empty($settings)) {
+                    $mform->setDefault($name, true);
+                } else {
+                    foreach($settings as $config){
+                        if($config->activityid == $activity->id){
+                            $mform->setDefault($name, true);
+                        }
+                    }
+                }
 
                 $this->dados[$id_course][$activity->id] = $name;
 
