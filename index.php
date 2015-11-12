@@ -59,7 +59,7 @@ $table->attributes['class'] = 'admintable generaltable';
 $table->data = $data;
 echo html_writer::table($table);
 
-if ($line[0] == 'Relatório Não Configurado'){
+if ($line[0] == 'Relatórios Não Configurados'){
     echo $OUTPUT->single_button(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)), get_string('add', 'local_report_config'));
 }
 

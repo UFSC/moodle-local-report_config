@@ -42,7 +42,13 @@ class Config_form extends moodleform {
             foreach ($activities as $activity){
 
                 if(!isset($activities_module[$id_course])){
-                    $activities_module[$id_course][] = $mform->addElement('static', 'course_name', $activity->course_name);
+//                    $activities_module[$id_course][] = $mform->addElement('static', 'course_name', $activity->course_name);
+
+                    $mform->addElement('html', '<h4>');
+
+                    $activities_module[$id_course][] = $mform->addElement('html', $activity->course_name);
+
+                    $mform->addElement('html', '<br>');
                     $mform->setType('course_name', PARAM_TEXT);
                 }
 
@@ -63,6 +69,7 @@ class Config_form extends moodleform {
                 }
 
                 $this->dados[$id_course][$activity->id] = $name;
+                $activities_module[$id_course][] = $mform->addElement('html', '<br>');
 
                 $i++;
             }
