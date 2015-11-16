@@ -15,7 +15,7 @@ function local_report_config_extends_settings_navigation(navigation_node $naviga
     if (is_a($PAGE->context, 'context_coursecat') && has_capability('local/report_config:manage', $PAGE->context)) {
         $category_node = $navigation->get('categorysettings');
 
-        if ($category_node && $show_config_option->parent != 0) {
+        if ($category_node && $show_config_option->coursecount > 1) {
             $category_node->add(
                 get_string('reportconfig', 'local_report_config'),
                 new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)),

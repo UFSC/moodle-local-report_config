@@ -10,7 +10,7 @@ function get_activities_courses($categoryid = null) {
 
     $categoryid = $categoryid == null ? required_param('categoryid', PARAM_INT) : $categoryid;
 
-    $courses = get_nome_modulos($categoryid);
+    $courses = get_name_modulos($categoryid);
     $ids_courses = array();
 
     foreach ($courses as $id => $course) {
@@ -56,4 +56,26 @@ function get_activities_courses($categoryid = null) {
     }
 
     return $group_array->get_assoc();
+}
+
+function get_name_modulos($categoria_curso) {
+    $modulos = get_id_nome_modulos($categoria_curso, 'get_records_sql');
+
+    // Interar para criar array dos modulos separados por grupos
+    $listall = array();
+    $list = array();
+
+    foreach ($modulos as $key => $modulo) {
+        if ($modulo->depth == 1) {
+            $listall[$key] = $modulo->fullname;
+        } else {
+            $list[$modulo->category][$key] = $modulo->fullname;
+        }
+    }
+
+    foreach ($list as $key => $l) {
+        array_push($listall, array($key => $l));
+    }
+
+    return $listall;
 }
