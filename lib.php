@@ -5,7 +5,7 @@ defined('MOODLE_INTERNAL') || die();
 function local_report_config_extends_settings_navigation(navigation_node $navigation) {
     global $PAGE, $DB;
 
-    if (is_a($PAGE->context, 'context_coursecat')) { // && has_capability('local/tutores:manage', $PAGE->context)) {
+    if (is_a($PAGE->context, 'context_coursecat') && has_capability('local/report_config:manage', $PAGE->context)) {
         $category_node = $navigation->get('categorysettings');
 
         $show_config_option = $DB->get_record('course_categories', array('id' => $PAGE->context->instanceid));
