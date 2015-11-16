@@ -4,10 +4,11 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/moodlelib.php');
 require_once($CFG->libdir . '/coursecatlib.php');
+require_once($CFG->dirroot . '/report/unasus/locallib.php');
 
-function get_activities_courses() {
+function get_activities_courses($categoryid = null) {
 
-    $categoryid = required_param('categoryid', PARAM_INT);
+    $categoryid = $categoryid == null ? required_param('categoryid', PARAM_INT) : $categoryid;
 
     $courses = get_nome_modulos($categoryid);
     $ids_courses = array();

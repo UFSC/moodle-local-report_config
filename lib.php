@@ -2,19 +2,40 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once('locallib.php');
+
 function local_report_config_extends_settings_navigation(navigation_node $navigation) {
     global $PAGE, $DB;
+
+    $categoryid = $PAGE->context->instanceid;
+
+    $already_configured = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
+    $show_config_option = $DB->get_record('course_categories', array('id' => $PAGE->context->instanceid));
 
     if (is_a($PAGE->context, 'context_coursecat') && has_capability('local/report_config:manage', $PAGE->context)) {
         $category_node = $navigation->get('categorysettings');
 
-        $show_config_option = $DB->get_record('course_categories', array('id' => $PAGE->context->instanceid));
-
         if ($category_node && $show_config_option->parent != 0) {
             $category_node->add(
                 get_string('reportconfig', 'local_report_config'),
-                new moodle_url('/local/report_config/index.php', array('categoryid' => $PAGE->context->instanceid)),
+                new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)),
                 navigation_node::TYPE_SETTING);
+
+            if (empty($already_configured)){
+
+                $atividades_curso = get_activities_courses($categoryid);
+
+                foreach ($atividades_curso as $id_course => $activities){
+                    foreach ($activities as $atividade) {
+                        $record = new stdClass();
+                        $record->activityid = $atividade->id;
+                        $record->courseid = $atividade->course_id;
+                        $record->categoryid = $categoryid;
+
+                        $DB->insert_record('activities_course_config', $record);
+                    }
+                }
+            }
         }
     }
 }
