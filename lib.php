@@ -4,7 +4,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once('locallib.php');
 
-function local_report_config_extends_settings_navigation(navigation_node $navigation) {
+function local_report_config_extend_settings_navigation(navigation_node $navigation) {
     global $PAGE, $DB;
 
     $categoryid = $PAGE->context->instanceid;
