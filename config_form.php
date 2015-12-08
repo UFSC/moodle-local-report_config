@@ -50,7 +50,14 @@ class Config_form extends moodleform {
                     $mform->setType('course_name', PARAM_TEXT);
                 }
 
-                $name = $id_course . '-' . $i;
+                if (get_class($activity) == 'report_unasus_lti_activity'){
+                    $name = $activity->position . '-' . $i;
+
+                    /* Os capítulos do TCC tem todos o mesmo id da atividade. Posição do capítulo é usado como índice do array */
+                    $index = $activity->position;
+                } else {
+                    $name = $id_course . '-' . $i;
+                }
 
                 $activities_module[$id_course][] = $mform->addElement('checkbox', $name, $activity->name);
                 $mform->setType($name, PARAM_ALPHANUM);
@@ -66,7 +73,11 @@ class Config_form extends moodleform {
                     }
                 }
 
-                $this->dados[$id_course][$activity->id] = $name;
+                if ($activity->id != 10) {
+                    $index = $activity->id;
+                }
+
+                $this->dados[$id_course][$index] = $name;
                 $activities_module[$id_course][] = $mform->addElement('html', '<br>');
 
                 $i++;

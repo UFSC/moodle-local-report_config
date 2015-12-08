@@ -55,6 +55,8 @@ function get_activities_courses($categoryid = null) {
         $group_array->add($scorm->course_id, new report_unasus_scorm_activity_config($scorm));
     }
 
+    process_header_atividades_lti($courses, $group_array);
+
     return $group_array->get_assoc();
 }
 
