@@ -104,6 +104,9 @@ class Config_form extends moodleform {
             $activities_module = '';
         }
 
+        $mform->addElement('hidden', 'categoryid', $categoryid);
+        $mform->setType('categoryid', PARAM_INT);
+
         $this->add_action_buttons();
     }
 
