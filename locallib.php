@@ -27,13 +27,13 @@ function get_activities_courses($categoryid = null) {
         }
     }
 
-    $assigns = query_assign_courses($ids_courses);
-    $foruns = query_forum_courses($ids_courses);
-    $quizes = query_quiz_courses($ids_courses);
-    $databases = query_database_courses($ids_courses);
-    $scorms = query_scorm_courses($ids_courses);
+    $assigns = report_unasus_query_assign_courses($ids_courses);
+    $foruns = report_unasus_query_forum_courses($ids_courses);
+    $quizes = report_unasus_query_quiz_courses($ids_courses);
+    $databases = report_unasus_query_database_courses($ids_courses);
+    $scorms = report_unasus_query_scorm_courses($ids_courses);
 
-    $group_array = new GroupArray();
+    $group_array = new report_unasus_GroupArray();
 
     foreach ($assigns as $atividade) {
         $group_array->add($atividade->course_id, new report_unasus_assign_activity_config($atividade));
@@ -55,13 +55,13 @@ function get_activities_courses($categoryid = null) {
         $group_array->add($scorm->course_id, new report_unasus_scorm_activity_config($scorm));
     }
 
-    process_header_atividades_lti($courses, $group_array);
+    report_unasus_process_header_atividades_lti($courses, $group_array);
 
     return $group_array->get_assoc();
 }
 
 function get_name_modulos($categoria_curso) {
-    $modulos = get_id_nome_modulos($categoria_curso, 'get_records_sql');
+    $modulos = report_unasus_get_id_nome_modulos($categoria_curso, 'get_records_sql');
 
     // Interar para criar array dos modulos separados por grupos
     $listall = array();
