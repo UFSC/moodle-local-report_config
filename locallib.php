@@ -33,6 +33,8 @@ function get_activities_courses($categoryid = null) {
     $databases = report_unasus_query_database_courses($ids_courses);
     $scorms = report_unasus_query_scorm_courses($ids_courses);
 
+    $ltis = report_unasus_query_lti_courses_moodle($ids_courses);
+
     $group_array = new report_unasus_GroupArray();
 
     foreach ($assigns as $atividade) {
@@ -53,6 +55,10 @@ function get_activities_courses($categoryid = null) {
 
     foreach ($scorms as $scorm) {
         $group_array->add($scorm->course_id, new report_unasus_scorm_activity_config($scorm));
+    }
+
+    foreach ($ltis  as $lti) {
+        $group_array->add($lti->course_id, new report_unasus_lti_activity_config($lti));
     }
 
     return $group_array->get_assoc();
