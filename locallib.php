@@ -27,13 +27,12 @@ function get_activities_courses($categoryid = null) {
         }
     }
 
-    $assigns = report_unasus_query_assign_courses($ids_courses);
-    $foruns = report_unasus_query_forum_courses($ids_courses);
-    $quizes = report_unasus_query_quiz_courses($ids_courses);
-    $databases = report_unasus_query_database_courses($ids_courses);
-    $scorms = report_unasus_query_scorm_courses($ids_courses);
-
-    $ltis = report_unasus_query_lti_courses_moodle($ids_courses);
+    $assigns    = report_unasus_query_assign_courses($ids_courses);
+    $foruns     = report_unasus_query_forum_courses($ids_courses);
+    $quizes     = report_unasus_query_quiz_courses($ids_courses);
+    $databases  = report_unasus_query_database_courses($ids_courses);
+    $scorms     = report_unasus_query_scorm_courses($ids_courses);
+    $ltis       = report_unasus_query_lti_courses_moodle($ids_courses);
 
     $group_array = new report_unasus_GroupArray();
 
