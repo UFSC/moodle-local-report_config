@@ -35,16 +35,6 @@ class Config_form extends moodleform {
 
         $settings = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
 
-        $tcc = new stdClass();
-        $tcc->name = 'TCC';
-        $tcc->id = 1;
-
-        $tcc_module = end($atividades_curso);
-        array_push($tcc_module, $tcc);
-
-        array_pop($atividades_curso);
-        array_push($atividades_curso, $tcc_module);
-
         foreach ($atividades_curso as $id_course => $activities){
 
             $i = 0;
