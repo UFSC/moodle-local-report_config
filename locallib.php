@@ -37,27 +37,27 @@ function get_activities_courses($categoryid = null) {
     $group_array = new report_unasus_GroupArray();
 
     foreach ($assigns as $atividade) {
-        $group_array->add($atividade->course_id, new report_unasus_assign_activity_config($atividade));
+        $group_array->add($atividade->course_id, new report_unasus_assign_activity_report_config($atividade));
     }
 
     foreach ($foruns as $forum) {
-        $group_array->add($forum->course_id, new report_unasus_forum_activity_config($forum));
+        $group_array->add($forum->course_id, new report_unasus_forum_activity_report_config($forum));
     }
 
     foreach ($quizes as $quiz) {
-        $group_array->add($quiz->course_id, new report_unasus_quiz_activity_config($quiz));
+        $group_array->add($quiz->course_id, new report_unasus_quiz_activity_report_config($quiz));
     }
 
     foreach ($databases as $database) {
-        $group_array->add($database->course_id, new report_unasus_db_activity_config($database));
+        $group_array->add($database->course_id, new report_unasus_db_activity_report_config($database));
     }
 
     foreach ($scorms as $scorm) {
-        $group_array->add($scorm->course_id, new report_unasus_scorm_activity_config($scorm));
+        $group_array->add($scorm->course_id, new report_unasus_scorm_activity_report_config($scorm));
     }
 
     foreach ($ltis  as $lti) {
-        $group_array->add($lti->course_id, new report_unasus_lti_activity_config($lti));
+        $group_array->add($lti->course_id, new report_unasus_lti_activity_report_config($lti));
     }
 
     return $group_array->get_assoc();
