@@ -2,6 +2,7 @@
 
 $string['reportconfig'] = 'Configuração Relatórios';
 $string['pluginname'] = 'Configuração Relatórios';
+$string['report_config:manage'] = 'Gerenciar a configuração dos relatórios de gestão de tutoria';
 
 $string['course'] = 'Cursos';
 $string['activities'] = 'Atividades';
