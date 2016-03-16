@@ -2,10 +2,10 @@
 
 require_once("$CFG->libdir/formslib.php");
 
-require_once('../../config.php');
+require_once($CFG->dirroot . '/config.php');
 require_once($CFG->libdir . '/adminlib.php');
-require_once('locallib.php');
-require_once('config_form.php');
+require_once($CFG->dirroot . '/local/report_config/locallib.php');
+require_once($CFG->dirroot . '/local/report_config/config_form.php');
 require_once($CFG->dirroot . '/report/unasus/locallib.php');
 
 $categoryid = required_param('categoryid', PARAM_INT);
