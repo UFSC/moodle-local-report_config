@@ -2,7 +2,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once('locallib.php');
+require_once($CFG->dirroot . '/local/report_config/locallib.php');
 
 function local_report_config_extend_settings_navigation(navigation_node $navigation) {
     global $PAGE, $DB;
