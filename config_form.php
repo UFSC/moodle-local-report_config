@@ -30,29 +30,28 @@ class Config_form extends moodleform {
 
         $categoryid = required_param('categoryid', PARAM_INT);
         $atividades_curso = get_activities_courses();
+        $courseids = array_keys($atividades_curso);
 
         $mform = $this->_form;
 
-        $settings = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
+            foreach ($atividades_curso as $id_course => $activities) {
 
-        foreach ($atividades_curso as $id_course => $activities){
+                $i = 0;
 
-            $i = 0;
+                foreach ($activities as $activity) {
 
-            foreach ($activities as $activity){
+                    $mform->addElement('html', '<div>');
 
-                $mform->addElement('html', '<div>');
+                    if (!isset($activities_module[$id_course])) {
+                        $mform->addElement('html', '<h4>');
 
-                if(!isset($activities_module[$id_course])){
-                    $mform->addElement('html', '<h4>');
+                        $activities_module[$id_course][] = $mform->addElement('html', $activity->course_name);
 
-                    $activities_module[$id_course][] = $mform->addElement('html', $activity->course_name);
+                        $mform->addElement('html', '</h4>');
+                        $mform->setType('course_name', PARAM_TEXT);
+                    }
 
-                    $mform->addElement('html', '</h4>');
-                    $mform->setType('course_name', PARAM_TEXT);
-                }
-
-                /* Estrutura que traz os capítulos dos TCCs para dentro da configuração */
+                    /* Estrutura que traz os capítulos dos TCCs para dentro da configuração */
 
 //                if (get_class($activity) == 'report_unasus_lti_activity'){
 //                    $name = $activity->position . '-' . $i;
@@ -63,36 +62,42 @@ class Config_form extends moodleform {
 //                    $name = $id_course . '-' . $i;
 //                }
 
-                $name = $id_course . '-' . $i;
+                    $name = $id_course . '-' . $i;
 
-                $mform->addElement('html', '</div>');
+                    $mform->addElement('html', '</div>');
 
-                $activities_module[$id_course][] = $mform->addElement('checkbox', $name, $activity->name);
-                $mform->setType($name, PARAM_ALPHANUM);
+                    $activities_module[$id_course][] = $mform->addElement('checkbox', $name, $activity->name);
+                    $mform->setType($name, PARAM_ALPHANUM);
 
+                    foreach ($courseids as $courseid) {
 
-                // Se ainda não há configuração para o relatório, o default são todas atividades selecionadas
-                if(empty($settings)) {
-                    $mform->setDefault($name, true);
-                } else {
-                    foreach($settings as $config){
-                        if($config->activityid == $activity->id){
+                        $settings = $DB->get_records('activities_course_config', array('categoryid' => $categoryid, 'courseid' => $courseid));
+
+                        // Se ainda não há configuração para o relatório, o default são todas atividades selecionadas
+                        if (empty($settings)) {
                             $mform->setDefault($name, true);
+                        } else {
+                            foreach ($settings as $config) {
+                                if ($config->activityid == $activity->id) {
+                                    $mform->setDefault($name, true);
+                                    break;
+                                }
+                            }
                         }
                     }
+
+                    if ($activity->id != 10) {
+                        $index = $activity->id;
+                    }
+
+                    $this->dados[$id_course][$index] = $name;
+
+                    $i++;
                 }
 
-                if ($activity->id != 10) {
-                    $index = $activity->id;
-                }
-
-                $this->dados[$id_course][$index] = $name;
-
-                $i++;
+                $activities_module = '';
             }
 
-            $activities_module = '';
-        }
 
         $mform->addElement('hidden', 'categoryid', $categoryid);
         $mform->setType('categoryid', PARAM_INT);
