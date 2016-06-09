@@ -76,8 +76,9 @@ class Config_form extends moodleform {
                     $mform->setDefault($name, true);
                 } else {
                     foreach($settings as $config){
-                        if($config->activityid == $activity->id){
-                            $mform->setDefault($name, true);
+                        $mform->setDefault($name, ($config->activityid != $activity->id));
+                        if ($config->activityid == $activity->id) {
+                            break;
                         }
                     }
                 }

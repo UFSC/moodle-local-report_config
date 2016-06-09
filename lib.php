@@ -32,7 +32,10 @@ function local_report_config_extend_settings_navigation(navigation_node $navigat
                         $record->courseid = $atividade->course_id;
                         $record->categoryid = $categoryid;
 
-                        $DB->insert_record('activities_course_config', $record);
+                        $DB->delete_records('activities_course_config', array(
+                                                                            'categoryid' => $record->categoryid,
+                                                                            'courseid' => $record->courseid,
+                                                                            'activityid' => $record->activityid));
                     }
                 }
             }
@@ -47,19 +50,23 @@ class Config {
 
     function __construct($dados, $fromform, $categoryid) {
 
-        $config_report = array();
+        //Transformação de um objeto e seus respectivos atributos em um array
+        $arrayform = get_object_vars($fromform);
+        $uncheckedActivities = array();
 
+        //TODO: otimizar laço.
         foreach ($dados as $course_id => $data) {
             foreach ($data as $name_activity => $activity) {
                 foreach ($fromform as $id_activity => $data_form) {
-                    if ($activity == $id_activity){
-                        $config_report[$course_id][] = $name_activity;
+                    if(!array_key_exists($data[$name_activity],$arrayform)){
+                        $uncheckedActivities[$course_id][] = $name_activity;
+                        break;
                     }
                 }
             }
         }
 
-        $this->config_report = $config_report;
+        $this->config_report = $uncheckedActivities;
         $this->categoryid = $categoryid;
     }
 
@@ -67,6 +74,12 @@ class Config {
         return $this->config_report;
     }
 
+    /*
+     * Função executada após clicar no botão de Salvar do formulário (onde cria-se uma nova configuração)
+     * de configuração de relatórios.
+     * Seu funcionamento é deletar todas as entradas na tabela e adicionar as entradas do array $config_report que foi
+     * contruído durante a execução desta classe. Este array guarda as atividades não checadas do formulário.
+     */
     function add_or_update_config_report() {
         global $DB;
 
