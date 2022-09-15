@@ -55,12 +55,22 @@ class Config {
         $uncheckedActivities = array();
 
         //TODO: otimizar laço.
-        foreach ($dados as $course_id => $data) {
-            foreach ($data as $name_activity => $activity) {
-                foreach ($fromform as $id_activity => $data_form) {
-                    if(!array_key_exists($data[$name_activity],$arrayform)){
-                        $uncheckedActivities[$course_id][] = $name_activity;
-                        break;
+        //$dados = todos os cursos (de todas atividades listadas)
+        foreach ($dados as $course_id => $module_data) {
+
+            //$module_data = passa por todos os module_id (tipos de módulos)
+            foreach ($module_data as $module_id => $activities) {
+
+                //$activities = todas atividades listadas (por um curso = $course_id)
+                foreach ($activities as $id_activity => $activity) {
+
+                    // passar por todos da lista de checados do form
+                    foreach ($fromform as $id_activity_form => $data_form) {
+
+                        if (!array_key_exists($activity, $arrayform)) {
+                        $uncheckedActivities[$course_id][$module_id][] = $id_activity;
+                            break;
+                        }
                     }
                 }
             }
@@ -85,15 +95,20 @@ class Config {
 
         $DB->delete_records('activities_course_config', array('categoryid' => $this->categoryid));
 
-        foreach ($this->config_report as $courseid => $config) {
+        foreach ($this->config_report as $courseid => $modules) {
 
-            foreach ($config as $activity) {
-                $record2 = new stdClass();
-                $record2->activityid = $activity;
-                $record2->courseid = $courseid;
-                $record2->categoryid = $this->categoryid;
+            foreach ($modules as $moduleid => $activities) {#$activity) {
 
-                $DB->insert_record('activities_course_config', $record2);
+                foreach ($activities as $activity_order => $data) {#$activity) {
+
+                    $record2 = new stdClass();
+                    $record2->activityid = $data;
+                    $record2->moduleid = $moduleid;
+                    $record2->courseid = $courseid;
+                    $record2->categoryid = $this->categoryid;
+
+                    $DB->insert_record('activities_course_config', $record2);
+                }
             }
         }
     }

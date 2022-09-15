@@ -35,10 +35,11 @@ class Config_form extends moodleform {
 
         $settings = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
 
+        $activities_module = array();
+        // passa por todos os cursos ($id_course, $activities)
         foreach ($atividades_curso as $id_course => $activities){
 
-            $i = 0;
-
+            // passa por todas as atividades ($activities) de um curso ($id_course)
             foreach ($activities as $activity){
 
                 $mform->addElement('html', '<div>');
@@ -52,18 +53,7 @@ class Config_form extends moodleform {
                     $mform->setType('course_name', PARAM_TEXT);
                 }
 
-                /* Estrutura que traz os capítulos dos TCCs para dentro da configuração */
-
-//                if (get_class($activity) == 'report_unasus_lti_activity'){
-//                    $name = $activity->position . '-' . $i;
-//
-//                    /* Os capítulos do TCC tem todos o mesmo id da atividade. Posição do capítulo é usado como índice do array */
-//                    $index = $activity->position;
-//                } else {
-//                    $name = $id_course . '-' . $i;
-//                }
-
-                $name = $id_course . '-' . $i;
+                $name = $id_course . '-' . $activity->module_id . '-' . $activity->id;
 
                 $mform->addElement('html', '</div>');
 
@@ -76,23 +66,20 @@ class Config_form extends moodleform {
                     $mform->setDefault($name, true);
                 } else {
                     foreach($settings as $config){
-                        $mform->setDefault($name, ($config->activityid != $activity->id));
-                        if ($config->activityid == $activity->id) {
+
+                        $mform->setDefault($name,( ($config->moduleid != $activity->module_id)
+                            or ($config->activityid != $activity->id)) ) ;
+                        if ( (($config->moduleid == $activity->module_id)
+                            and ($config->activityid == $activity->id) )) {
                             break;
                         }
                     }
                 }
 
-                if ($activity->id != 10) {
-                    $index = $activity->id;
-                }
-
-                $this->dados[$id_course][$index] = $name;
-
-                $i++;
+                $this->dados[$id_course][$activity->module_id][$activity->id] = $name;
             }
 
-            $activities_module = '';
+            $activities_module = array();
         }
 
         $mform->addElement('hidden', 'categoryid', $categoryid);
