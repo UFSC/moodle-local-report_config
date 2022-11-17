@@ -3,9 +3,9 @@ Configuração de atividades para relatórios UNA-SUS
 
 Este plugin auxilia em permitir apresentar ou ocultar as atividades de um curso Moodle durante a geração de dados nos relatórios UnA-SUS.
 
-Uma lista com todas as atividades de todos os módulos do curso Moodle serão apresentdas, para que possam ser selecionadas.
+Uma lista com todas as atividades de todos os módulos do curso Moodle serão apresentadas, para que possam ser selecionadas.
 
-As atividades selecionadas seão apesentadas nos relatórios do plugin de relatórios, enquanto as atividades não selecionadas serão desconsideradas durante a montagem, isto é, ficarão ocultas.
+As atividades selecionadas serão apresentadas nos relatórios do plugin de relatórios, enquanto as atividades não selecionadas serão desconsideradas durante a montagem, isto é, ficarão ocultas.
 
 Instalação
 ----------
