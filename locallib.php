@@ -3,7 +3,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/moodlelib.php');
-require_once($CFG->libdir . '/coursecatlib.php');
 require_once($CFG->dirroot . '/report/unasus/locallib.php');
 
 function get_activities_courses($categoryid = null) {
