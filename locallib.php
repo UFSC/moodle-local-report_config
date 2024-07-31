@@ -63,7 +63,7 @@ function get_activities_courses($categoryid = null) {
 }
 
 function get_name_modulos($categoria_curso) {
-    $modulos = report_unasus_get_id_nome_modulos($categoria_curso, 'get_records_sql');
+    $modulos = report_unasus_get_id_nome_modulos($categoria_curso, 'get_records_sql', false);
 
     // Interar para criar array dos modulos separados por grupos
     $listall = array();
