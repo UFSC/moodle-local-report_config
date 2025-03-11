@@ -62,6 +62,37 @@ function get_activities_courses($categoryid = null) {
     return $group_array->get_assoc();
 }
 
+function get_ordered_courses_activities($categoryid = null) {
+
+    $categoryid = $categoryid == null ? required_param('categoryid', PARAM_INT) : $categoryid;
+    $courses = get_name_modulos($categoryid);
+    $ids_courses = array();
+
+    foreach ($courses as $id => $course) {
+        // Verificação necessária para cursos com Turma A e B
+        if(!is_array($course)){
+            $ids_courses[] = $id;
+        } else {
+            foreach ($course as $c) {
+                foreach ($c as $id_course => $course_name) {
+                    // Get the ID for each course
+                    $ids_courses[] = $id_course;
+                }
+            }
+        }
+    }
+
+    $atividades = report_unasus_query_activities_ordered_courses($ids_courses);
+
+    $group_array = new report_unasus_GroupArray();
+
+    foreach ($atividades as $atividade) {
+        $group_array->add($atividade->course_id, new report_unasus_generic_activity_report_config($atividade));
+    }
+
+    return $group_array->get_assoc();
+}
+
 function get_name_modulos($categoria_curso) {
     $modulos = report_unasus_get_id_nome_modulos($categoria_curso, 'get_records_sql', false);
 
