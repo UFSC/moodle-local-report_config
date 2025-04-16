@@ -29,7 +29,7 @@ class Config_form extends moodleform {
         global $DB;
 
         $categoryid = required_param('categoryid', PARAM_INT);
-        $atividades_curso = get_activities_courses();
+        $atividades_curso = get_ordered_courses_activities();
 
         $mform = $this->_form;
 
@@ -93,4 +93,3 @@ class Config_form extends moodleform {
     }
 
 }
-

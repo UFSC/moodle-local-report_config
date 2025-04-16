@@ -23,7 +23,7 @@ function local_report_config_extend_settings_navigation(navigation_node $navigat
 
             if (empty($already_configured)){
 
-                $atividades_curso = get_activities_courses($categoryid);
+                $atividades_curso = get_ordered_courses_activities($categoryid);
 
                 foreach ($atividades_curso as $id_course => $activities){
                     foreach ($activities as $atividade) {
