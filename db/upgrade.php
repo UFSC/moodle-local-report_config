@@ -25,6 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Atualiza o esquema do plugin entre versões.
+ *
+ * @param int $oldversion versão instalada antes da atualização
+ * @return bool
+ */
 function xmldb_local_report_config_upgrade($oldversion) {
     global $CFG, $DB, $OUTPUT;
 

@@ -81,7 +81,13 @@ class local_report_config_locallib_testcase extends advanced_testcase {
         return array($category->id, $course->id, $assign->cmid, 'Atividade Elegivel');
     }
 
-    /** Nomes das atividades listadas por get_ordered_courses_activities para um curso. */
+    /**
+     * Nomes das atividades listadas por get_ordered_courses_activities para um curso.
+     *
+     * @param int $categoryid id da categoria
+     * @param int $courseid id do curso
+     * @return string[]
+     */
     private function listed_activity_names($categoryid, $courseid) {
         $result = get_ordered_courses_activities($categoryid);
         $names = array();

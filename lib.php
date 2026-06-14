@@ -26,6 +26,15 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/report_config/locallib.php');
 
+/**
+ * Adiciona o link de configuração de relatórios às configurações da categoria.
+ *
+ * Só inclui o nó quando o contexto é de categoria, o usuário tem a capability
+ * local/report_config:manage e a categoria possui ao menos um curso.
+ *
+ * @param navigation_node $navigation nó de navegação da página atual
+ * @return void
+ */
 function local_report_config_extend_settings_navigation(navigation_node $navigation) {
     global $PAGE, $DB;
 
@@ -65,11 +74,25 @@ function local_report_config_extend_settings_navigation(navigation_node $navigat
     }
 }
 
+/**
+ * Monta e persiste a configuração das atividades exibidas nos relatórios.
+ *
+ * A partir dos dados do formulário, determina quais atividades foram desmarcadas
+ * e grava esse conjunto em activities_course_config.
+ */
 class Config {
 
-    public $config_report; //Array com os dados de configuração
+    /** @var array Atividades desmarcadas, agrupadas por curso e módulo. */
+    public $config_report;
+
+    /** @var int Id da categoria sendo configurada. */
     public $categoryid;
 
+    /**
+     * @param array $dados árvore [course_id][module_id][activity_id] => nome do checkbox
+     * @param stdClass $fromform dados retornados por moodleform::get_data()
+     * @param int $categoryid id da categoria sendo configurada
+     */
     function __construct($dados, $fromform, $categoryid) {
 
         //Transformação de um objeto e seus respectivos atributos em um array
@@ -102,15 +125,23 @@ class Config {
         $this->categoryid = $categoryid;
     }
 
+    /**
+     * Devolve as atividades desmarcadas, agrupadas por curso e módulo.
+     *
+     * @return array
+     */
     function get_config_report() {
         return $this->config_report;
     }
 
-    /*
-     * Função executada após clicar no botão de Salvar do formulário (onde cria-se uma nova configuração)
-     * de configuração de relatórios.
-     * Seu funcionamento é deletar todas as entradas na tabela e adicionar as entradas do array $config_report que foi
-     * contruído durante a execução desta classe. Este array guarda as atividades não checadas do formulário.
+    /**
+     * Regrava activities_course_config para a categoria.
+     *
+     * Apaga todas as entradas da categoria e insere uma para cada atividade
+     * desmarcada (o conjunto montado no construtor) — são as atividades ocultadas
+     * dos relatórios.
+     *
+     * @return void
      */
     function add_or_update_config_report() {
         global $DB;

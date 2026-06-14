@@ -27,6 +27,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/moodlelib.php');
 require_once($CFG->dirroot . '/report/unasus/locallib.php');
 
+/**
+ * Lista as atividades dos cursos da categoria agrupadas por tipo de módulo.
+ *
+ * @param int|null $categoryid id da categoria; quando null, lê de required_param
+ * @return array [course_id => lista de objetos report_unasus_*_activity_report_config]
+ */
 function get_activities_courses($categoryid = null) {
 
     $categoryid = $categoryid == null ? required_param('categoryid', PARAM_INT) : $categoryid;
@@ -84,6 +90,12 @@ function get_activities_courses($categoryid = null) {
     return $group_array->get_assoc();
 }
 
+/**
+ * Lista as atividades dos cursos da categoria na ordem de apresentação.
+ *
+ * @param int|null $categoryid id da categoria; quando null, lê de required_param
+ * @return array [course_id => lista de report_unasus_generic_activity_report_config]
+ */
 function get_ordered_courses_activities($categoryid = null) {
 
     $categoryid = $categoryid == null ? required_param('categoryid', PARAM_INT) : $categoryid;
@@ -115,6 +127,13 @@ function get_ordered_courses_activities($categoryid = null) {
     return $group_array->get_assoc();
 }
 
+/**
+ * Devolve os cursos (módulos) da categoria, separando os de nível raiz dos
+ * agrupados em subcategorias.
+ *
+ * @param int $categoria_curso id da categoria
+ * @return array
+ */
 function get_name_modulos($categoria_curso) {
     $modulos = report_unasus_get_id_nome_modulos($categoria_curso, 'get_records_sql', false);
 
