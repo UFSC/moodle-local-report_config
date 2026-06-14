@@ -26,17 +26,19 @@ err()  { echo -e "\033[0;31m[ERROR]\033[0m $*" >&2; exit 1; }
 # ---------------------------------------------------------------------------
 # Leitura do arquivo .env para memória
 # ---------------------------------------------------------------------------
-if [ -f "../../../../.env" ]; then
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [ -f "$SCRIPT_DIR/../../../../.env" ]; then
   set -a
-  source ../../../../.env
+  source "$SCRIPT_DIR/../../../../.env"
   set +a
 else
   err "Arquivo ../../../../.env não encontrado."
 fi
 
-if [ -f ".env" ]; then
+if [ -f "$SCRIPT_DIR/.env" ]; then
   set -a
-  source .env
+  source "$SCRIPT_DIR/.env"
   set +a
 else
   err "Arquivo .env não encontrado."
