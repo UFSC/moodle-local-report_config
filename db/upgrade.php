@@ -15,6 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Rotinas de atualização do esquema do plugin local_report_config.
+ *
+ * @package    local_report_config
+ * @copyright  2022 UFSC
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
 function xmldb_local_report_config_upgrade($oldversion) {
     global $CFG, $DB, $OUTPUT;
 
