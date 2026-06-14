@@ -1,4 +1,27 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Testes de elegibilidade e visibilidade das atividades no local_report_config.
+ *
+ * @package    local_report_config
+ * @category   test
+ * @copyright  2026 UFSC
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -87,21 +110,21 @@ class local_report_config_locallib_testcase extends advanced_testcase {
 
     /** A atividade elegível continua listada mesmo com o CURSO oculto. */
     public function test_listed_even_when_course_is_hidden() {
-        list($categoryid, $courseid, $cmid, $name) = $this->setup_activity(0, 1, COMPLETION_TRACKING_MANUAL);
+        list($categoryid, $courseid, , $name) = $this->setup_activity(0, 1, COMPLETION_TRACKING_MANUAL);
 
         $this->assertContains($name, $this->listed_activity_names($categoryid, $courseid));
     }
 
     /** A atividade elegível continua listada mesmo com a ATIVIDADE oculta. */
     public function test_listed_even_when_activity_is_hidden() {
-        list($categoryid, $courseid, $cmid, $name) = $this->setup_activity(1, 0, COMPLETION_TRACKING_MANUAL);
+        list($categoryid, $courseid, , $name) = $this->setup_activity(1, 0, COMPLETION_TRACKING_MANUAL);
 
         $this->assertContains($name, $this->listed_activity_names($categoryid, $courseid));
     }
 
     /** A atividade elegível continua listada com curso E atividade ocultos. */
     public function test_listed_even_when_both_hidden() {
-        list($categoryid, $courseid, $cmid, $name) = $this->setup_activity(0, 0, COMPLETION_TRACKING_MANUAL);
+        list($categoryid, $courseid, , $name) = $this->setup_activity(0, 0, COMPLETION_TRACKING_MANUAL);
 
         $this->assertContains($name, $this->listed_activity_names($categoryid, $courseid));
     }
@@ -112,7 +135,7 @@ class local_report_config_locallib_testcase extends advanced_testcase {
      * é a conclusão, não a visibilidade.
      */
     public function test_activity_without_completion_is_not_listed() {
-        list($categoryid, $courseid, $cmid, $name) = $this->setup_activity(1, 1, COMPLETION_TRACKING_NONE);
+        list($categoryid, $courseid, , $name) = $this->setup_activity(1, 1, COMPLETION_TRACKING_NONE);
 
         $this->assertNotContains($name, $this->listed_activity_names($categoryid, $courseid));
     }
