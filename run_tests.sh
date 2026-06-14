@@ -26,12 +26,10 @@ err()  { echo -e "\033[0;31m[ERROR]\033[0m $*" >&2; exit 1; }
 # Leitura do arquivo .env para memória
 # ---------------------------------------------------------------------------
 if [ -f ".env" ]; then
-  while read -r line || [[ -n "$line" ]]; do
-    # Ignora comentários e linhas vazias
-    if [[ ! "$line" =~ ^# && -n "$line" ]]; then
-      export "$line"
-    fi
-  done < .env
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
 else
   err "Arquivo .env não encontrado."
 fi
