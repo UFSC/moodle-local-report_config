@@ -18,7 +18,7 @@
  * Strings de idioma (en) do plugin local_report_config.
  *
  * @package    local_report_config
- * @copyright  2022 UFSC
+ * @copyright  2026 UFSC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

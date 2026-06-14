@@ -18,7 +18,7 @@
  * Funções internas de montagem da lista de atividades por curso/categoria.
  *
  * @package    local_report_config
- * @copyright  2022 UFSC
+ * @copyright  2026 UFSC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

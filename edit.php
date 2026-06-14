@@ -18,7 +18,7 @@
  * Página de edição da configuração de relatórios da categoria.
  *
  * @package    local_report_config
- * @copyright  2022 UFSC
+ * @copyright  2026 UFSC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
