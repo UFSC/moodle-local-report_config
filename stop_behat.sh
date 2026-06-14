@@ -40,8 +40,6 @@ for arg in "$@"; do
     esac
 done
 
-log()  { echo -e "\033[0;32m[INFO]\033[0m  $*"; }
-warn() { echo -e "\033[0;33m[WARN]\033[0m  $*"; }
 
 container_exists() {
     docker inspect "$1" >/dev/null 2>&1
