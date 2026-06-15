@@ -4,8 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## O que é
 
-Plugin Moodle `local_report_config` (Moodle 3.8+). Permite, por **categoria de
-curso**, escolher quais atividades aparecem nos relatórios UnA-SUS — atividades
+Plugin Moodle `local_report_config` (requires Moodle 2.8.5; desenvolvido e testado
+em 3.8). Permite, por **categoria de curso**, escolher quais atividades aparecem
+nos relatórios UnA-SUS — atividades
 não marcadas ficam ocultas na geração dos relatórios. Não tem configuração de
 admin; toda a operação é por categoria.
 
@@ -20,8 +21,9 @@ delega inteiramente ao `report/unasus/locallib.php`
 (`report_unasus_get_id_nome_modulos` → cursos da categoria;
 `report_unasus_query_activities_ordered_courses` → atividades). Retorna
 `[course_id => [report_unasus_generic_activity_report_config, ...]]` via
-`report_unasus_GroupArray` (classe em `report/unasus/activities_datastructures.php`,
-onde também vivem os objetos `report_unasus_*_activity_report_config`).
+`report_unasus_GroupArray` (classe em `report/unasus/locallib.php`); os objetos
+`report_unasus_*_activity_report_config` ficam em
+`report/unasus/activities_datastructures.php`.
 
 **Critério de aparição (não-óbvio)** — a query do report_unasus filtra por
 `cm.completion != 0` e tipo de módulo suportado (assign/forum/quiz/data/scorm/lti).
@@ -68,8 +70,12 @@ Os runners de teste exigem um `.env` na raiz do plugin (`CORE_NAME`,
 ./run_behat.sh --init                # reinicializa o ambiente Behat
 ./stop_behat.sh [--down]             # para os containers do Behat
 
-moodlecheck                          # checa PHPdoc do plugin (ferramenta moodle-ufsc-devtools)
+moodlecheck                          # checa PHPdoc do plugin
 ```
+
+`moodlecheck` não faz parte deste repo: vem da ferramenta externa
+`moodle-ufsc-devtools` (instale com o `install.sh` dela); só fica disponível no
+PATH se estiver instalada.
 
 ## Notas para testes
 
