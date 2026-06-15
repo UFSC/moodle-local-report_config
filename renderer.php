@@ -24,9 +24,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Renderiza o cabeçalho e o rodapé das páginas de configuração de relatórios.
+ */
 class local_report_config_renderer extends plugin_renderer_base
 {
 
+    /** @var int Id da categoria sendo renderizada. */
+    public $categoryid;
+
+    /**
+     * @param moodle_page $page página em renderização
+     * @param string $target alvo de renderização (ver rendererfactory)
+     */
     public function __construct(moodle_page $page, $target)
     {
         parent::__construct($page, $target);
@@ -34,6 +44,11 @@ class local_report_config_renderer extends plugin_renderer_base
         $this->categoryid = required_param('categoryid', PARAM_INT);
     }
 
+    /**
+     * Cabeçalho da página, com título e ícone de ajuda.
+     *
+     * @return string HTML
+     */
     public function page_header()
     {
         $output = '';
@@ -46,6 +61,11 @@ class local_report_config_renderer extends plugin_renderer_base
         return $output;
     }
 
+    /**
+     * Rodapé da página.
+     *
+     * @return string HTML
+     */
     public function page_footer()
     {
         return $this->footer();

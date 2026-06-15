@@ -42,10 +42,19 @@ $PAGE->set_heading(get_string('pluginname', 'local_report_config'));
 
 require_login();
 
+/**
+ * Formulário com um checkbox por atividade configurável da categoria.
+ */
 class Config_form extends moodleform {
 
+    /** @var array Mapa [course_id][module_id][activity_id] => nome do checkbox. */
     private $dados = array();
 
+    /**
+     * Define os campos do formulário a partir das atividades da categoria.
+     *
+     * @return void
+     */
     public function definition() {
 
         global $DB;
@@ -110,6 +119,11 @@ class Config_form extends moodleform {
         $this->add_action_buttons();
     }
 
+    /**
+     * Devolve o mapa [course_id][module_id][activity_id] => nome do checkbox.
+     *
+     * @return array
+     */
     function get_dados() {
         return $this->dados;
     }
