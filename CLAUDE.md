@@ -56,8 +56,8 @@ contexto é `context_coursecat` **e** o usuário tem `local/report_config:manage
 
 ## Comandos
 
-Os runners de teste exigem um `.env` na raiz do plugin (`CORE_NAME`,
-`DOCKER_VERSION`, `URL_NAME`, `SELENIUM_PORT`) — derivam o container Docker dele.
+Os runners de teste usam variáveis de ambiente definidas em `.env` (`CORE_NAME`, `DOCKER_VERSION`, `URL_NAME`, `SELENIUM_PORT`).
+`run_tests.sh` e `stop_behat.sh` assumem execução a partir da raiz do plugin (onde está o `.env`); `run_behat.sh` também lê `../../../../.env` (raiz do Moodle) quando o plugin está em `local/report_config`.
 `.env` não é versionado; veja `.env.template`.
 
 ```bash
