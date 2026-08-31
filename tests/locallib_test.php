@@ -45,7 +45,7 @@ require_once($CFG->dirroot . '/lib/completionlib.php'); // Constantes COMPLETION
  * @group local_report_config
  * @covers ::get_ordered_courses_activities
  */
-class local_report_config_locallib_testcase extends advanced_testcase {
+class locallib_test extends advanced_testcase {
 
     /**
      * Cria categoria + curso + um assign elegível (conclusão manual + nota),

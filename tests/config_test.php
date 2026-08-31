@@ -48,7 +48,7 @@ require_once($CFG->dirroot . '/local/report_config/lib.php');
  * @group local_report_config
  * @covers \Config
  */
-class local_report_config_config_testcase extends advanced_testcase {
+class config_test extends advanced_testcase {
 
     /**
      * Atividades desmarcadas (nome de checkbox ausente no form) têm seu activityid
