@@ -22,7 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once($CFG->dirroot . '/config.php');
+// Nao usar $CFG->dirroot aqui: este e' um ponto de entrada, e $CFG so' passa a
+// existir DEPOIS que o config.php e' carregado. Com $CFG indefinido o caminho
+// resolvia para '/config.php', na raiz do sistema de arquivos, e a pagina morria
+// em "Failed opening required '/config.php'". O edit.php sempre usou a forma
+// relativa; foi o index.php que divergiu em fff492e (2016).
+require_once('../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/local/report_config/locallib.php');
 require_once($CFG->dirroot . '/local/report_config/config_form.php');
