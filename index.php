@@ -58,11 +58,14 @@ $table = new html_table();
 global $DB;
 $already_configured = $DB->get_records('activities_course_config', array('categoryid' => $categoryid));
 
+// image_url() so' existe a partir do Moodle 3.3; por isso este conserto vive na
+// MOODLE_405_STABLE e nao na main, que e' a linha usada pelo unasus-cp (Moodle 3.0.5,
+// onde so' ha' pix_url).
 if ($already_configured){
     $line[] = 'Relatórios Configurados';
 
     $buttons[] = html_writer::link(new moodle_url('/local/report_config/edit.php', array('categoryid' => $categoryid)),
-    html_writer::empty_tag('img', array('src' => $OUTPUT->pix_url('t/edit'), 'alt' => get_string('edit'), 'title' => get_string('edit'), 'class' => 'iconsmall')));
+    html_writer::empty_tag('img', array('src' => $OUTPUT->image_url('t/edit'), 'alt' => get_string('edit'), 'title' => get_string('edit'), 'class' => 'iconsmall')));
 
     $line[] = implode(' ', $buttons);
     $table->head = array(
